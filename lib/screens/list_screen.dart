@@ -1,20 +1,22 @@
+import 'package:danetki_flutter/models/danetka.dart';
+import 'package:danetki_flutter/repository.dart';
 import 'package:flutter/material.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class ListScreen extends StatefulWidget {
+  const ListScreen({super.key});
 
   @override
-  State<MainScreen> createState() {
-    return _MainScreenState();
+  State<ListScreen> createState() {
+    return _ListScreenState();
   }
 }
 
-class _MainScreenState extends State<MainScreen> {
-  int _counter = 0;
+class _ListScreenState extends State<ListScreen> {
+  final List<Danetka> list = DanetkiRepository().getList();
 
   void _incrementCounter() {
     setState(() {
-      _counter++;
+      // _counter++;
     });
   }
 
@@ -26,22 +28,24 @@ class _MainScreenState extends State<MainScreen> {
         title: const Text('Danetki'),
         centerTitle: true,
       ),
-      body: ListView.builder(
-        itemCount: 10, // TODO Fix
-        itemBuilder: (context, i) {
-          const title = 'Danetka';
-          return ListTile(
-            title: Text(title, style: Theme.of(context).textTheme.titleLarge),
-            subtitle: Text('Subtitle', style: Theme.of(context).textTheme.titleSmall),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              Navigator.of(context).pushNamed('/danetka', arguments: title);
-            },
-          );
-        },
+      body: list.isEmpty
+          ? const SizedBox()
+          : ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (context, i) {
+                final danetka = list[i];
+                return ListTile(
+                  title: Text(danetka.title, style: Theme.of(context).textTheme.titleLarge),
+                  subtitle: Text(danetka.subtitle, style: Theme.of(context).textTheme.titleSmall),
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/danetka', arguments: danetka);
+                  },
+                );
+              },
 
-        // separatorBuilder: (context, i) => const Divider(),
-      ),
+              // separatorBuilder: (context, i) => const Divider(),
+            ),
 
       // body: Center(
       //   child: Column(

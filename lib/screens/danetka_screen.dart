@@ -1,3 +1,4 @@
+import 'package:danetki_flutter/models/danetka.dart';
 import 'package:flutter/material.dart';
 
 class DanetkaScreen extends StatefulWidget {
@@ -8,20 +9,20 @@ class DanetkaScreen extends StatefulWidget {
 }
 
 class _DanetkaScreenState extends State<DanetkaScreen> {
-  String? title;
+  Danetka? danetka;
 
   @override
   void didChangeDependencies() {
     final args = ModalRoute.of(context)?.settings.arguments;
 
-    assert(args != null && args is String, '');
+    assert(args != null && args is Danetka);
 
     // if (args == null || args is! String) {
     //   print('No');
     //   return;
     // }
 
-    title = args as String;
+    danetka = args as Danetka;
     // setState(() {});
 
     super.didChangeDependencies();
@@ -31,9 +32,15 @@ class _DanetkaScreenState extends State<DanetkaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title ?? "…"),
+        title: Text(danetka?.title ?? '…'),
       ),
-      body: const Text('Test'),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          danetka?.question ?? '…',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      ),
     );
   }
 }
