@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<MyHomePage> createState() {
-    return _MyHomePageState();
+  State<MainScreen> createState() {
+    return _MainScreenState();
   }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MainScreenState extends State<MainScreen> {
   int _counter = 0;
 
   void _incrementCounter() {
@@ -25,18 +23,24 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: const Text('Danetki'),
         centerTitle: true,
       ),
-      body: ListView.separated(
+      body: ListView.builder(
         itemCount: 10, // TODO Fix
-        itemBuilder: (context, i) => ListTile(
-          title: Text("Danetka", style: Theme.of(context).textTheme.titleLarge),
-          subtitle: Text("Subtitle", style: Theme.of(context).textTheme.titleSmall),
-          trailing: const Icon(Icons.arrow_forward_ios),
-        ),
+        itemBuilder: (context, i) {
+          const title = 'Danetka';
+          return ListTile(
+            title: Text(title, style: Theme.of(context).textTheme.titleLarge),
+            subtitle: Text('Subtitle', style: Theme.of(context).textTheme.titleSmall),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              Navigator.of(context).pushNamed('/danetka', arguments: title);
+            },
+          );
+        },
 
-        separatorBuilder: (context, i) => const Divider(),
+        // separatorBuilder: (context, i) => const Divider(),
       ),
 
       // body: Center(

@@ -1,6 +1,7 @@
+import 'package:danetki_flutter/screens/danetka_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'home/HomePage.dart';
+import 'screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Danetki'),
+      // home: const MainScreen(),
+      routes: {
+        '/': (context) => const MainScreen(),
+        '/danetka': (context) => const DanetkaScreen(),
+      },
     );
   }
 }
