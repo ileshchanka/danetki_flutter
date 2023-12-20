@@ -10,21 +10,16 @@ class DanetkaScreen extends StatefulWidget {
 
 class _DanetkaScreenState extends State<DanetkaScreen> {
   Danetka? danetka;
+  bool isShownQuestion = true;
+  String buttonTextShow = 'Показать ответ';
+  String buttonTextHide = 'Скрыть ответ';
 
   @override
   void didChangeDependencies() {
     final args = ModalRoute.of(context)?.settings.arguments;
-
     assert(args != null && args is Danetka);
 
-    // if (args == null || args is! String) {
-    //   print('No');
-    //   return;
-    // }
-
     danetka = args as Danetka;
-    // setState(() {});
-
     super.didChangeDependencies();
   }
 
@@ -36,9 +31,25 @@ class _DanetkaScreenState extends State<DanetkaScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Text(
-          danetka?.question ?? '…',
-          style: Theme.of(context).textTheme.bodyLarge,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              (isShownQuestion ? danetka?.question : danetka?.answer) ?? '…',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            Expanded(
+              child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          isShownQuestion = !isShownQuestion;
+                        });
+                      },
+                      child: Text(isShownQuestion ? buttonTextShow : buttonTextHide))),
+            )
+          ],
         ),
       ),
     );
