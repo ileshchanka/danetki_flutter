@@ -36,7 +36,7 @@ class _ListScreenState extends State<ListScreen> {
                 final danetka = list[i];
                 return ListTile(
                   title: Text(danetka.title, style: Theme.of(context).textTheme.titleLarge),
-                  subtitle: Text(danetka.subtitle, style: Theme.of(context).textTheme.titleSmall),
+                  // subtitle: Text(danetka.subtitle, style: Theme.of(context).textTheme.titleSmall),
                   trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
                     Navigator.of(context).pushNamed('/danetka', arguments: danetka);
