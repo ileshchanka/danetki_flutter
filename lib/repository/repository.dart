@@ -1,7 +1,10 @@
 import 'package:danetki_flutter/models/danetka.dart';
 
-class DanetkiRepository {
+import 'abstract_repository.dart';
+
+class DanetkiRepository implements AbstractDanetkiRepository {
   // Should be real API
+  @override
   List<Danetka> getList() {
     return list;
   }
