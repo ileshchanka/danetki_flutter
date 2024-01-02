@@ -13,12 +13,12 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
-  final List<Danetka> list = GetIt.I<AbstractDanetkiRepository>().getList();
+  List<Danetka>? _danetkaList;
 
-  void _incrementCounter() {
-    setState(() {
-      // _counter++;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _loadList();
   }
 
   @override
@@ -29,14 +29,14 @@ class _ListScreenState extends State<ListScreen> {
         title: const Text('Danetki'),
         centerTitle: true,
       ),
-      body: list.isEmpty
-          ? const SizedBox()
+      body: _danetkaList == null
+          ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
-              itemCount: list.length,
+              itemCount: _danetkaList!.length, // TODO Replace '!'
               itemBuilder: (context, i) {
-                final danetka = list[i];
+                final danetka = _danetkaList?[i];
                 return ListTile(
-                  title: Text(danetka.title, style: Theme.of(context).textTheme.titleLarge),
+                  title: Text(danetka!.title, style: Theme.of(context).textTheme.titleLarge), // TODO Replace '!'
                   // subtitle: Text(danetka.subtitle, style: Theme.of(context).textTheme.titleSmall),
                   trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
@@ -48,5 +48,10 @@ class _ListScreenState extends State<ListScreen> {
               // separatorBuilder: (context, i) => const Divider(),
             ),
     );
+  }
+
+  void _loadList() async {
+    _danetkaList = await GetIt.I<AbstractDanetkiRepository>().getList();
+    setState(() {});
   }
 }
