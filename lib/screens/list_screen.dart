@@ -1,6 +1,7 @@
-import 'package:danetki_flutter/models/danetka.dart';
+import 'package:danetki_flutter/bloc/danetki_bloc.dart';
 import 'package:danetki_flutter/repository/abstract_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class ListScreen extends StatefulWidget {
@@ -13,45 +14,70 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
-  List<Danetka>? _danetkaList;
+  final _danetkiBloc = DanetkiBloc(GetIt.I<AbstractDanetkiRepository>());
 
   @override
   void initState() {
     super.initState();
-    _loadList();
+    _danetkiBloc.add(LoadDanetkiEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Danetki'),
-        centerTitle: true,
-      ),
-      body: _danetkaList == null
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: _danetkaList!.length, // TODO Replace '!'
-              itemBuilder: (context, i) {
-                final danetka = _danetkaList?[i];
-                return ListTile(
-                  title: Text(danetka!.title, style: Theme.of(context).textTheme.titleLarge), // TODO Replace '!'
-                  // subtitle: Text(danetka.subtitle, style: Theme.of(context).textTheme.titleSmall),
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/danetka', arguments: danetka);
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: const Text('Danetki'),
+          centerTitle: true,
+        ),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            _danetkiBloc.add(LoadDanetkiEvent());
+          },
+          child: BlocBuilder<DanetkiBloc, DanetkiState>(
+            bloc: _danetkiBloc,
+            builder: (context, state) {
+              if (state is DanetkiLoaded) {
+                return ListView.builder(
+                  itemCount: state.list.length,
+                  itemBuilder: (context, i) {
+                    return ListTile(
+                      title: Text(state.list[i].title, style: Theme.of(context).textTheme.titleLarge),
+                      // subtitle: Text(danetka.subtitle, style: Theme.of(context).textTheme.titleSmall),
+                      trailing: const Icon(Icons.arrow_forward_ios),
+                      onTap: () {
+                        Navigator.of(context).pushNamed('/danetka', arguments: state.list[i]);
+                      },
+                    );
                   },
+
+                  // separatorBuilder: (context, i) => const Divider(),
                 );
-              },
+              }
 
-              // separatorBuilder: (context, i) => const Divider(),
-            ),
-    );
-  }
+              if (state is DanetkiLoadingFailed) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(state.message, style: Theme.of(context).textTheme.titleLarge),
+                      TextButton(
+                          onPressed: () {
+                            _danetkiBloc.add(LoadDanetkiEvent());
+                          },
+                          child: const Text("Try again"))
+                    ],
+                  ),
+                );
+              }
 
-  void _loadList() async {
-    _danetkaList = await GetIt.I<AbstractDanetkiRepository>().getList();
-    setState(() {});
+              if (state is DanetkiLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              return Container();
+            },
+          ),
+        ));
   }
 }
