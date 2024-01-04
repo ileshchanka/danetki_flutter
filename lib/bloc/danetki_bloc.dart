@@ -8,12 +8,12 @@ part 'danetki_event.dart';
 part 'danetki_state.dart';
 
 class DanetkiBloc extends Bloc<DanetkiEvent, DanetkiState> {
-  final AbstractDanetkiRepository repository;
+  final AbstractDanetkiRepository _repository;
 
-  DanetkiBloc(this.repository) : super(DanetkiInitial()) {
+  DanetkiBloc(this._repository) : super(DanetkiInitial()) {
     on<LoadDanetkiEvent>((event, emit) async {
       emit(DanetkiLoading());
-      final danetkiList = await repository.getList();
+      final danetkiList = await _repository.getList();
       if (danetkiList.isNotEmpty) {
         emit(DanetkiLoaded(list: danetkiList));
       } else {
