@@ -1,9 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:danetki_flutter/bloc/danetki_bloc.dart';
 import 'package:danetki_flutter/repository/abstract_repository.dart';
+import 'package:danetki_flutter/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+@RoutePage()
 class ListScreen extends StatefulWidget {
   const ListScreen({super.key});
 
@@ -42,11 +45,12 @@ class _ListScreenState extends State<ListScreen> {
                   itemCount: state.list.length,
                   itemBuilder: (context, i) {
                     return ListTile(
-                      title: Text(state.list[i].title, style: Theme.of(context).textTheme.titleLarge),
+                      title:
+                          Text(state.list[i].title, style: Theme.of(context).textTheme.titleLarge),
                       // subtitle: Text(danetka.subtitle, style: Theme.of(context).textTheme.titleSmall),
                       trailing: const Icon(Icons.arrow_forward_ios),
                       onTap: () {
-                        Navigator.of(context).pushNamed('/danetka', arguments: state.list[i]);
+                        AutoRouter.of(context).push(DanetkaRoute(danetka: state.list[i]));
                       },
                     );
                   },
