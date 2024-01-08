@@ -67,7 +67,7 @@ class _ListScreenState extends State<ListScreen> {
                           onPressed: () {
                             _danetkiBloc.add(LoadDanetkiEvent());
                           },
-                          child: const Text("Try again"))
+                          child: Text(S.of(context).tryAgain))
                     ],
                   ),
                 );
