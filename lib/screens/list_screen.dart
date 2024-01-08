@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../generated/l10n.dart';
+
 class ListScreen extends StatefulWidget {
   const ListScreen({super.key});
 
@@ -27,7 +29,7 @@ class _ListScreenState extends State<ListScreen> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text('Danetki'),
+          title: Text(S.of(context).danetki),
           centerTitle: true,
         ),
         body: RefreshIndicator(

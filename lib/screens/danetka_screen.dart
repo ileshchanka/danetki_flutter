@@ -1,6 +1,8 @@
 import 'package:danetki_flutter/models/danetka.dart';
 import 'package:flutter/material.dart';
 
+import '../generated/l10n.dart';
+
 class DanetkaScreen extends StatefulWidget {
   const DanetkaScreen({super.key});
 
@@ -11,8 +13,6 @@ class DanetkaScreen extends StatefulWidget {
 class _DanetkaScreenState extends State<DanetkaScreen> {
   Danetka? danetka;
   bool isShownQuestion = true;
-  String buttonTextShow = 'Показать ответ';
-  String buttonTextHide = 'Скрыть ответ';
 
   @override
   void didChangeDependencies() {
@@ -47,7 +47,9 @@ class _DanetkaScreenState extends State<DanetkaScreen> {
                           isShownQuestion = !isShownQuestion;
                         });
                       },
-                      child: Text(isShownQuestion ? buttonTextShow : buttonTextHide))),
+                      child: Text(isShownQuestion
+                          ? S.of(context).show_answer
+                          : S.of(context).hide_answer))),
             )
           ],
         ),
