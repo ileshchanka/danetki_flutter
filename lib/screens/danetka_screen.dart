@@ -32,7 +32,7 @@ class _DanetkaScreenState extends State<DanetkaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.danetka.title ?? '…'),
+        title: Text(widget.danetka.title),
       ),
       body: BlocBuilder<DanetkaDetailsBloc, DanetkaDetailsState>(
         bloc: _danetkaDetailsBloc,
@@ -44,7 +44,7 @@ class _DanetkaScreenState extends State<DanetkaScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    (isShownQuestion ? state.danetka.question : state.danetka.answer) ?? '…',
+                    (isShownQuestion ? state.danetka.question : state.danetka.answer),
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   Expanded(
