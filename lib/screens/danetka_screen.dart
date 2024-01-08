@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:danetki_flutter/models/danetka.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../bloc/danetka_details_bloc.dart';
 
@@ -16,15 +17,13 @@ class DanetkaScreen extends StatefulWidget {
 }
 
 class _DanetkaScreenState extends State<DanetkaScreen> {
-  bool isShownQuestion = true;
+  bool _isShownQuestion = true;
   String buttonTextShow = 'Показать ответ';
   String buttonTextHide = 'Скрыть ответ';
 
-  final _danetkaDetailsBloc = DanetkaDetailsBloc();
-
   @override
   void initState() {
-    _danetkaDetailsBloc.add(DanetkaDetailsLoadedEvent(danetka: widget.danetka));
+    GetIt.I<DanetkaDetailsBloc>().add(DanetkaDetailsLoadedEvent(danetka: widget.danetka));
     super.initState();
   }
 
@@ -35,7 +34,7 @@ class _DanetkaScreenState extends State<DanetkaScreen> {
         title: Text(widget.danetka.title),
       ),
       body: BlocBuilder<DanetkaDetailsBloc, DanetkaDetailsState>(
-        bloc: _danetkaDetailsBloc,
+        bloc: GetIt.I<DanetkaDetailsBloc>(),
         builder: (context, state) {
           if (state is DanetkaDetailsLoaded) {
             return Padding(
@@ -44,7 +43,7 @@ class _DanetkaScreenState extends State<DanetkaScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    (isShownQuestion ? state.danetka.question : state.danetka.answer),
+                    (_isShownQuestion ? state.danetka.question : state.danetka.answer),
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   Expanded(
@@ -53,10 +52,10 @@ class _DanetkaScreenState extends State<DanetkaScreen> {
                         child: TextButton(
                             onPressed: () {
                               setState(() {
-                                isShownQuestion = !isShownQuestion;
+                                _isShownQuestion = !_isShownQuestion;
                               });
                             },
-                            child: Text(isShownQuestion ? buttonTextShow : buttonTextHide))),
+                            child: Text(_isShownQuestion ? buttonTextShow : buttonTextHide))),
                   )
                 ],
               ),

@@ -44,13 +44,13 @@ class _ListScreenState extends State<ListScreen> {
                 return ListView.builder(
                   itemCount: state.list.length,
                   itemBuilder: (context, i) {
+                    final danetka = state.list[i];
                     return ListTile(
-                      title:
-                          Text(state.list[i].title, style: Theme.of(context).textTheme.titleLarge),
+                      title: Text(danetka.title, style: Theme.of(context).textTheme.titleLarge),
                       // subtitle: Text(danetka.subtitle, style: Theme.of(context).textTheme.titleSmall),
                       trailing: const Icon(Icons.arrow_forward_ios),
                       onTap: () {
-                        AutoRouter.of(context).push(DanetkaRoute(danetka: state.list[i]));
+                        AutoRouter.of(context).push(DanetkaRoute(danetka: danetka));
                       },
                     );
                   },
