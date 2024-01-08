@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "danetki": MessageLookupByLibrary.simpleMessage("Данетки"),
         "hide_answer": MessageLookupByLibrary.simpleMessage("Скрыть ответ"),
-        "show_answer": MessageLookupByLibrary.simpleMessage("Показать ответ")
+        "show_answer": MessageLookupByLibrary.simpleMessage("Показать ответ"),
+        "tryAgain": MessageLookupByLibrary.simpleMessage("Попробовать ещё раз")
       };
 }
