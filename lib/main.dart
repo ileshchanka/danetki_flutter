@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:danetki_flutter/models/danetka.dart';
-import 'package:danetki_flutter/repository/abstract_repository.dart';
-import 'package:danetki_flutter/repository/repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +11,7 @@ import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import 'app.dart';
+import 'di/get_it.dart';
 
 Future<void> main() async {
   // Hive
@@ -29,10 +28,7 @@ Future<void> main() async {
       talker: talker, settings: const TalkerDioLoggerSettings(printResponseData: false)));
   Bloc.observer = TalkerBlocObserver(talker: talker);
 
-  // GetIt registers
-  GetIt.I.registerSingleton(talker);
-  GetIt.I.registerLazySingleton<AbstractDanetkiRepository>(
-      () => DanetkiRepository(dio: dio, box: box));
+  configureDependencies(talker: talker, dio: dio, box: box);
 
   FlutterError.onError = (details) => GetIt.I<Talker>().handle(details.exception, details.stack);
 
