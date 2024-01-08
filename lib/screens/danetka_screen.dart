@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../bloc/danetka_details_bloc.dart';
+import '../generated/l10n.dart';
 
 @RoutePage()
 class DanetkaScreen extends StatefulWidget {
@@ -18,8 +19,6 @@ class DanetkaScreen extends StatefulWidget {
 
 class _DanetkaScreenState extends State<DanetkaScreen> {
   bool _isShownQuestion = true;
-  String buttonTextShow = 'Показать ответ';
-  String buttonTextHide = 'Скрыть ответ';
 
   @override
   void initState() {
@@ -55,7 +54,9 @@ class _DanetkaScreenState extends State<DanetkaScreen> {
                                 _isShownQuestion = !_isShownQuestion;
                               });
                             },
-                            child: Text(_isShownQuestion ? buttonTextShow : buttonTextHide))),
+                            child: Text(_isShownQuestion
+                                ? S.of(context).show_answer
+                                : S.of(context).hide_answer))),
                   )
                 ],
               ),
